@@ -27,7 +27,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/panel_tint"
-                    android:elevation="4dp"
+                    android:elevation="8dp"
                     android:orientation="vertical"
                     android:padding="22dp">
 
@@ -66,8 +66,8 @@
                         android:max="1000"
                         android:maxHeight="8dp"
                         android:minHeight="8dp"
-                        android:progressBackgroundTint="#D4E0DA"
-                        android:progressTint="#1E6B52" />
+                        android:progressBackgroundTint="#E5D8C3"
+                        android:progressTint="#8B6F5B" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -82,7 +82,7 @@
                         android:layout_marginEnd="6dp"
                         android:layout_weight="1"
                         android:background="@drawable/card_white"
-                        android:elevation="4dp"
+                        android:elevation="8dp"
                         android:orientation="vertical"
                         android:padding="16dp">
 
@@ -91,7 +91,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textColor="#1E6B52"
+                            android:textColor="#4A4038"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
@@ -110,7 +110,7 @@
                         android:layout_marginStart="6dp"
                         android:layout_weight="1"
                         android:background="@drawable/card_white"
-                        android:elevation="4dp"
+                        android:elevation="8dp"
                         android:orientation="vertical"
                         android:padding="16dp">
 
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/card_white"
-                    android:elevation="4dp"
+                    android:elevation="8dp"
                     android:orientation="vertical"
                     android:padding="16dp">
 
@@ -184,10 +184,10 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="6dp"
                             android:layout_weight="1"
-                            android:background="@drawable/btn_secondary"
+                            android:background="@android:color/transparent"
                             android:text="测试提醒"
-                            android:textColor="#3F362E"
-                            android:textSize="14sp" />
+                            android:textColor="#8B6F5B"
+                            android:textSize="13sp" />
                     </LinearLayout>
 
                     <TextView

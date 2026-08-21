@@ -382,7 +382,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:gravity="center"
-                    android:text="久坐提醒 v2.3.0 · 数据仅保存在本机"
+                    android:text="久坐提醒 v2.3.1 · 数据仅保存在本机"
                     android:textColor="#B0A698"
                     android:textSize="12sp" />
             </LinearLayout>

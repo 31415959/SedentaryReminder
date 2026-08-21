@@ -91,7 +91,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="v2.3.0"
+        android:text="v2.3.1"
         android:textColor="#B0B7B3"
         android:textSize="12sp" />
 </LinearLayout>

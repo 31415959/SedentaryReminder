@@ -30,7 +30,7 @@ public class SideNav {
         Button b = a.findViewById(id);
         if (b == null) return;
         if (a.getClass().equals(target)) {
-            b.setTextColor(0xFFC67F52);
+            b.setTextColor(0xFF8B6F5B);
             b.setBackgroundResource(R.drawable.panel_tint);
         }
         b.setOnClickListener(v -> {

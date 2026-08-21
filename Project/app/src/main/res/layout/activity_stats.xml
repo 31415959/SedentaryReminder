@@ -128,7 +128,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="橙色 = 每天实际提醒目标（分钟） · 灰色 = 总体响应水平（0-10）"
+                        android:text="棕色 = 每天实际提醒目标（分钟） · 灰色 = 总体响应水平（0-10）"
                         android:textColor="#A0968A"
                         android:textSize="11sp" />
 
@@ -219,7 +219,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="深色 = 提醒 · 橙色 = 有效活动"
+                        android:text="深色 = 提醒 · 棕色 = 有效活动"
                         android:textColor="#A0968A"
                         android:textSize="11sp" />
 

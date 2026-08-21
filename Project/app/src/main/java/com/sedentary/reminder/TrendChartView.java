@@ -19,7 +19,7 @@ public class TrendChartView extends View {
     public TrendChartView(Context c, AttributeSet a) {
         super(c, a);
         dp = c.getResources().getDisplayMetrics().density;
-        lineT.setColor(0xFFC67F52);
+        lineT.setColor(0xFF8B6F5B);
         lineT.setStrokeWidth(2.5f * dp);
         lineT.setStyle(Paint.Style.STROKE);
         lineT.setStrokeCap(Paint.Cap.ROUND);
@@ -59,7 +59,7 @@ public class TrendChartView extends View {
             if (targets[i] > 0) {
                 float y = bottom - targets[i] * usable / max;
                 canvas.drawCircle(cx, y, 3 * dp, lineT);
-                val.setColor(0xFFC67F52);
+                val.setColor(0xFF8B6F5B);
                 canvas.drawText(String.valueOf(targets[i]), cx, y - 6 * dp, val);
                 if (prevX >= 0) canvas.drawLine(prevX, prevY, cx, y, lineT);
                 prevX = cx;
