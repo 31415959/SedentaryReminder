@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -27,8 +27,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/panel_tint"
+                    android:elevation="4dp"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="22dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -81,6 +82,7 @@
                         android:layout_marginEnd="6dp"
                         android:layout_weight="1"
                         android:background="@drawable/card_white"
+                        android:elevation="4dp"
                         android:orientation="vertical"
                         android:padding="16dp">
 
@@ -108,6 +110,7 @@
                         android:layout_marginStart="6dp"
                         android:layout_weight="1"
                         android:background="@drawable/card_white"
+                        android:elevation="4dp"
                         android:orientation="vertical"
                         android:padding="16dp">
 
@@ -135,6 +138,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:background="@drawable/card_white"
+                    android:elevation="4dp"
                     android:orientation="vertical"
                     android:padding="16dp">
 
@@ -146,45 +150,45 @@
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
-                    <LinearLayout
+                    <Button
+                        android:id="@+id/btnStart"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
-                        android:orientation="horizontal">
+                        android:background="@drawable/btn_primary"
+                        android:text="开始监测"
+                        android:textColor="#FFFFFF"
+                        android:textSize="16sp"
+                        android:textStyle="bold" />
 
-                        <Button
-                            android:id="@+id/btnStart"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginEnd="6dp"
-                            android:layout_weight="1"
-                            android:background="@drawable/btn_primary"
-                            android:text="开始"
-                            android:textColor="#FFFFFF"
-                            android:textSize="15sp"
-                            android:textStyle="bold" />
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
 
                         <Button
                             android:id="@+id/btnStop"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
+                            android:layout_marginEnd="6dp"
                             android:layout_weight="1"
                             android:background="@drawable/btn_secondary"
                             android:text="停止"
                             android:textColor="#1C1F1D"
-                            android:textSize="15sp" />
-                    </LinearLayout>
+                            android:textSize="14sp" />
 
-                    <Button
-                        android:id="@+id/btnTest"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:background="@drawable/btn_secondary"
-                        android:text="测试提醒"
-                        android:textColor="#1C1F1D"
-                        android:textSize="15sp" />
+                        <Button
+                            android:id="@+id/btnTest"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/btn_secondary"
+                            android:text="测试提醒"
+                            android:textColor="#1C1F1D"
+                            android:textSize="14sp" />
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tvHomeHint"
