@@ -403,12 +403,20 @@ public class MonitorService extends Service implements SensorEventListener {
     }
 
     private Notification statusNotification() {
+        long t = System.currentTimeMillis();
         long sitMs = p.effectiveSitMinutes() * 60000L;
-        long el = Math.max(0, System.currentTimeMillis() - p.lastBreak());
+        long el = Math.max(0, t - p.lastBreak());
         int mm = (int) (el / 60000L);
         int ss = (int) ((el / 1000L) % 60L);
         String text;
-        if (el >= sitMs && p.inQuietHours()) {
+        if (isMovingAt(t)) {
+            text = "正在活动，久坐计时顺延中";
+        } else if (p.lastAlert() > 0) {
+            long sinceAlert = t - p.lastAlert();
+            text = "提醒已发出，等待起身 "
+                    + (int) (sinceAlert / 60000L) + " 分 "
+                    + (int) ((sinceAlert / 1000L) % 60L) + " 秒";
+        } else if (el >= sitMs && p.inQuietHours()) {
             text = "已超时 " + mm + " 分钟，免打扰时段结束后提醒";
         } else if (el >= sitMs) {
             text = "已超时 " + mm + " 分钟，请起来活动！";
@@ -434,9 +442,14 @@ public class MonitorService extends Service implements SensorEventListener {
         nm.notify(NOTIF_STATUS, statusNotification());
     }
 
+    private boolean isMovingAt(long t) {
+        return lastStepAt > 0 && t - lastStepAt <= 60 * 1000L;
+    }
+
     private void sendStateBroadcast() {
         Intent i = new Intent(Prefs.ACTION_STATE).setPackage(getPackageName());
         i.putExtra("elapsed", Math.max(0, now - p.lastBreak()));
+        i.putExtra("moving", isMovingAt(now));
         sendBroadcast(i);
     }
 

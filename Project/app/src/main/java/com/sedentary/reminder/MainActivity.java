@@ -28,6 +28,7 @@ public class MainActivity extends Activity {
     private ProgressBar progress;
     private BroadcastReceiver r;
     private boolean pendingStart;
+    private boolean moving;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class MainActivity extends Activity {
                 if (Prefs.ACTION_BREAK.equals(intent.getAction())) {
                     toast("已记录有效活动，计时清零");
                 }
+                moving = intent.getBooleanExtra("moving", moving);
                 updateUi();
             }
         };
@@ -195,18 +197,34 @@ public class MainActivity extends Activity {
         int mm = (int) (el / 60000L);
         int ss = (int) ((el / 1000L) % 60L);
 
-        tvStatus.setText(running ? "正在监测" : "未开始");
         String detail;
+        int prog;
         if (!running) {
+            tvStatus.setText("未开始");
             detail = "开启后开始累计久坐时间";
+            prog = 0;
+        } else if (moving) {
+            tvStatus.setText("正在活动");
+            detail = "检测到你在走动，久坐计时顺延中";
+            prog = 0;
+        } else if (p.lastAlert() > 0) {
+            long sinceAlert = Math.max(0, System.currentTimeMillis() - p.lastAlert());
+            tvStatus.setText("提醒已发出");
+            detail = "等待起身 " + (int) (sinceAlert / 60000L) + " 分 "
+                    + (int) ((sinceAlert / 1000L) % 60L) + " 秒";
+            prog = 1000;
         } else if (el >= sitMs) {
+            tvStatus.setText("已超时");
             detail = "已超时 " + mm + " 分钟，起来活动一下";
+            prog = 1000;
         } else {
+            tvStatus.setText("正在监测");
             detail = "已静坐 " + mm + " 分 " + ss + " 秒，目标 " + p.effectiveSitMinutes() + " 分钟";
+            prog = (int) Math.min(1000, el * 1000 / Math.max(1, sitMs));
         }
         tvDetail.setText(detail);
         progress.setMax(1000);
-        progress.setProgress((int) Math.min(1000, el * 1000 / Math.max(1, sitMs)));
+        progress.setProgress(prog);
         tvHomeBreaks.setText(running ? String.valueOf(p.today("breaks")) : "—");
         tvHomeAlerts.setText(running ? String.valueOf(p.today("alerts")) : "—");
         boolean changed = p.autoAdaptive()
