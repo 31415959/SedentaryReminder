@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_main"
+    android:fitsSystemWindows="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <include layout="@layout/top_bar" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/card_white"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="个人档案"
+                        android:textColor="#1C1F1D"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:lineSpacingExtra="3dp"
+                        android:textColor="#6B726E"
+                        android:textSize="13sp" />
+
+                    <Button
+                        android:id="@+id/btnProfile"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/btn_secondary"
+                        android:text="填写 / 修改档案"
+                        android:textColor="#1C1F1D"
+                        android:textSize="15sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/card_white"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="目标"
+                        android:textColor="#1C1F1D"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/cbAdaptive"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="自动调整提醒时间与活动标准（推荐）"
+                        android:textColor="#1C1F1D"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/tvAdaptive"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:lineSpacingExtra="3dp"
+                        android:textColor="#6B726E"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:text="久坐提醒时长（15-240 分钟）"
+                        android:textColor="#5F6863"
+                        android:textSize="13sp" />
+
+                    <SeekBar
+                        android:id="@+id/sbSit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max="225"
+                        android:progressTint="#1E6B52"
+                        android:thumbTint="#1E6B52" />
+
+                    <TextView
+                        android:id="@+id/tvSitL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#1C1F1D"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etSit"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_bg"
+                        android:hint="手动输入 15-240"
+                        android:inputType="number"
+                        android:maxLength="3"
+                        android:padding="12dp"
+                        android:textColor="#1C1F1D"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="有效活动窗口（1-15 分钟）"
+                        android:textColor="#5F6863"
+                        android:textSize="13sp" />
+
+                    <SeekBar
+                        android:id="@+id/sbWin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max="14"
+                        android:progressTint="#1E6B52"
+                        android:thumbTint="#1E6B52" />
+
+                    <TextView
+                        android:id="@+id/tvWinL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#1C1F1D"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etWin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_bg"
+                        android:hint="手动输入 1-15"
+                        android:inputType="number"
+                        android:maxLength="2"
+                        android:padding="12dp"
+                        android:textColor="#1C1F1D"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:text="窗口内最少步数（20-1000 步）"
+                        android:textColor="#5F6863"
+                        android:textSize="13sp" />
+
+                    <SeekBar
+                        android:id="@+id/sbSteps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:max="980"
+                        android:progressTint="#1E6B52"
+                        android:thumbTint="#1E6B52" />
+
+                    <TextView
+                        android:id="@+id/tvStepsL"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#1C1F1D"
+                        android:textSize="14sp"
+                        android:textStyle="bold" />
+
+                    <EditText
+                        android:id="@+id/etSteps"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/edit_bg"
+                        android:hint="手动输入 20-1000"
+                        android:inputType="number"
+                        android:maxLength="4"
+                        android:padding="12dp"
+                        android:textColor="#1C1F1D"
+                        android:textSize="14sp" />
+
+                    <Button
+                        android:id="@+id/btnApply"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:background="@drawable/btn_primary"
+                        android:text="应用"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp"
+                        android:textStyle="bold" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/card_white"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="免打扰时段"
+                        android:textColor="#1C1F1D"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <CheckBox
+                        android:id="@+id/cbQuiet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="开启后，该时段内不提醒，结束后补提醒"
+                        android:textColor="#3F4944"
+                        android:textSize="14sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <EditText
+                            android:id="@+id/etQuietStart"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bg"
+                            android:hint="开始 0-23"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:padding="12dp"
+                            android:textColor="#1C1F1D"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:text="至"
+                            android:textColor="#6B726E"
+                            android:textSize="14sp" />
+
+                        <EditText
+                            android:id="@+id/etQuietEnd"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:background="@drawable/edit_bg"
+                            android:hint="结束 0-23"
+                            android:inputType="number"
+                            android:maxLength="2"
+                            android:padding="12dp"
+                            android:textColor="#1C1F1D"
+                            android:textSize="14sp" />
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnQuiet"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/btn_secondary"
+                        android:text="保存时段"
+                        android:textColor="#1C1F1D"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvQuietSuggest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:lineSpacingExtra="3dp"
+                        android:textColor="#6B726E"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:id="@+id/btnUseSuggest"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/btn_primary"
+                        android:text="采用建议时段"
+                        android:textColor="#FFFFFF"
+                        android:textSize="14sp"
+                        android:visibility="gone" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:background="@drawable/card_white"
+                    android:orientation="vertical"
+                    android:padding="18dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="后台保活"
+                        android:textColor="#1C1F1D"
+                        android:textSize="17sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnBattery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="12dp"
+                        android:background="@drawable/btn_secondary"
+                        android:text="忽略电池优化"
+                        android:textColor="#1C1F1D"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/btnAuto"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/btn_secondary"
+                        android:text="荣耀/Honor 自启动与后台活动"
+                        android:textColor="#1C1F1D"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/btnNotif"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/btn_secondary"
+                        android:text="通知与全屏提醒权限"
+                        android:textColor="#1C1F1D"
+                        android:textSize="15sp" />
+
+                    <Button
+                        android:id="@+id/btnOverlay"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:background="@drawable/btn_secondary"
+                        android:text="悬浮提醒权限（在其他应用上方显示）"
+                        android:textColor="#1C1F1D"
+                        android:textSize="15sp" />
+
+                    <TextView
+                        android:id="@+id/tvCheck"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:lineSpacingExtra="3dp"
+                        android:textColor="#6B726E"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:gravity="center"
+                    android:text="久坐提醒 v2.2.1 · 数据仅保存在本机"
+                    android:textColor="#9AA19C"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/scrim"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/drawer"
+        layout="@layout/nav_drawer"
+        android:layout_width="300dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start" />
+</FrameLayout>

@@ -1,0 +1,13 @@
+# 本地构建环境，不要上传
+BuildEnv/
+
+# 构建缓存与产物
+Project/.gradle/
+Project/build/
+Project/build_manual/
+Project/build.log
+*.apk.idsig
+
+# IDE
+.idea/
+*.iml
