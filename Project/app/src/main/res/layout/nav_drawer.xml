@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:letterSpacing="0.02"
         android:text="久坐提醒"
-        android:textColor="#1C1F1D"
+        android:textColor="#3F362E"
         android:textSize="21sp"
         android:textStyle="bold" />
 
@@ -23,14 +23,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="7dp"
         android:text="少坐，常动，保持好状态"
-        android:textColor="#8A928D"
+        android:textColor="#A0968A"
         android:textSize="13sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="22dp"
-        android:background="#EEF0EE" />
+        android:background="#EEE6DA" />
 
     <Button
         android:id="@+id/navHome"
@@ -46,7 +46,7 @@
         android:paddingEnd="14dp"
         android:stateListAnimator="@null"
         android:text="首页"
-        android:textColor="#1C1F1D"
+        android:textColor="#3F362E"
         android:textSize="16sp" />
 
     <Button
@@ -63,7 +63,7 @@
         android:paddingEnd="14dp"
         android:stateListAnimator="@null"
         android:text="统计"
-        android:textColor="#1C1F1D"
+        android:textColor="#3F362E"
         android:textSize="16sp" />
 
     <Button
@@ -80,7 +80,7 @@
         android:paddingEnd="14dp"
         android:stateListAnimator="@null"
         android:text="设置"
-        android:textColor="#1C1F1D"
+        android:textColor="#3F362E"
         android:textSize="16sp" />
 
     <Space
@@ -91,7 +91,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="v2.2.3"
+        android:text="v2.3.0"
         android:textColor="#B0B7B3"
         android:textSize="12sp" />
 </LinearLayout>

@@ -35,7 +35,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="当前状态"
-                        android:textColor="#6B726E"
+                        android:textColor="#8A7F73"
                         android:textSize="13sp" />
 
                     <TextView
@@ -44,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="未开始"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="26sp"
                         android:textStyle="bold" />
 
@@ -100,7 +100,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="今日有效活动"
-                            android:textColor="#6B726E"
+                            android:textColor="#8A7F73"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -119,7 +119,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textColor="#1C1F1D"
+                            android:textColor="#3F362E"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
@@ -128,7 +128,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="今日提醒"
-                            android:textColor="#6B726E"
+                            android:textColor="#8A7F73"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -146,7 +146,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="控制"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="16sp"
                         android:textStyle="bold" />
 
@@ -175,7 +175,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/btn_secondary"
                             android:text="停止"
-                            android:textColor="#1C1F1D"
+                            android:textColor="#3F362E"
                             android:textSize="14sp" />
 
                         <Button
@@ -186,7 +186,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/btn_secondary"
                             android:text="测试提醒"
-                            android:textColor="#1C1F1D"
+                            android:textColor="#3F362E"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -196,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:lineSpacingExtra="2dp"
-                        android:textColor="#8A928D"
+                        android:textColor="#A0968A"
                         android:textSize="12sp" />
                 </LinearLayout>
             </LinearLayout>

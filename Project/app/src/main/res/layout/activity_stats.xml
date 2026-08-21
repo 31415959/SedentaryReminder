@@ -34,7 +34,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="最近一周"
-                        android:textColor="#6B726E"
+                        android:textColor="#8A7F73"
                         android:textSize="13sp" />
 
                     <TextView
@@ -42,7 +42,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="18sp"
                         android:textStyle="bold" />
                 </LinearLayout>
@@ -76,7 +76,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="今日有效活动"
-                            android:textColor="#6B726E"
+                            android:textColor="#8A7F73"
                             android:textSize="12sp" />
                     </LinearLayout>
 
@@ -94,7 +94,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textColor="#1C1F1D"
+                            android:textColor="#3F362E"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
@@ -103,7 +103,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="今日提醒"
-                            android:textColor="#6B726E"
+                            android:textColor="#8A7F73"
                             android:textSize="12sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -120,7 +120,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="自适应调整趋势"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -128,8 +128,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="绿色 = 每天实际提醒目标（分钟） · 灰色 = 总体响应水平（0-10）"
-                        android:textColor="#8A928D"
+                        android:text="橙色 = 每天实际提醒目标（分钟） · 灰色 = 总体响应水平（0-10）"
+                        android:textColor="#A0968A"
                         android:textSize="11sp" />
 
                     <com.sedentary.reminder.TrendChartView
@@ -160,7 +160,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/btn_secondary"
                             android:text="日"
-                            android:textColor="#1C1F1D"
+                            android:textColor="#3F362E"
                             android:textSize="14sp" />
 
                         <Button
@@ -171,7 +171,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/btn_secondary"
                             android:text="周"
-                            android:textColor="#1C1F1D"
+                            android:textColor="#3F362E"
                             android:textSize="14sp" />
 
                         <Button
@@ -182,7 +182,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/btn_secondary"
                             android:text="月"
-                            android:textColor="#1C1F1D"
+                            android:textColor="#3F362E"
                             android:textSize="14sp" />
 
                         <Button
@@ -192,7 +192,7 @@
                             android:layout_weight="1"
                             android:background="@drawable/btn_secondary"
                             android:text="年"
-                            android:textColor="#1C1F1D"
+                            android:textColor="#3F362E"
                             android:textSize="14sp" />
                     </LinearLayout>
                 </LinearLayout>
@@ -210,7 +210,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="近 7 天"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -219,8 +219,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="深色 = 提醒 · 绿色 = 有效活动"
-                        android:textColor="#8A928D"
+                        android:text="深色 = 提醒 · 橙色 = 有效活动"
+                        android:textColor="#A0968A"
                         android:textSize="11sp" />
 
                     <com.sedentary.reminder.StatsChartView
@@ -242,7 +242,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="每日明细"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -272,7 +272,7 @@
                     android:layout_marginTop="12dp"
                     android:background="@drawable/btn_secondary"
                     android:text="返回首页"
-                    android:textColor="#1C1F1D"
+                    android:textColor="#3F362E"
                     android:textSize="15sp" />
             </LinearLayout>
         </ScrollView>

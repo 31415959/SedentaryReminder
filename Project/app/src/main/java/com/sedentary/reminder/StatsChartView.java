@@ -19,12 +19,12 @@ public class StatsChartView extends View {
     public StatsChartView(Context c, AttributeSet a) {
         super(c, a);
         dp = c.getResources().getDisplayMetrics().density;
-        barP.setColor(0xFF3D4943);
-        barG.setColor(0xFF1E6B52);
-        txtP.setColor(0xFF6B726E);
+        barP.setColor(0xFF8A7F73);
+        barG.setColor(0xFFC67F52);
+        txtP.setColor(0xFF8A7F73);
         txtP.setTextSize(11 * dp);
         txtP.setTextAlign(Paint.Align.CENTER);
-        smallP.setColor(0xFF8A928D);
+        smallP.setColor(0xFFA0968A);
         smallP.setTextSize(9 * dp);
         smallP.setTextAlign(Paint.Align.CENTER);
     }

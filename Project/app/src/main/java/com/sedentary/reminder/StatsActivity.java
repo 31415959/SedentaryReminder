@@ -108,7 +108,7 @@ public class StatsActivity extends Activity {
 
     private void showWeek() {
         tvRangeTitle.setText("近 7 天");
-        tvLegend.setText("深色 = 提醒 · 绿色 = 有效活动");
+        tvLegend.setText("深色 = 提醒 · 橙色 = 有效活动");
         String[] labels = new String[7];
         int[] br = new int[7];
         int[] al = new int[7];
@@ -125,7 +125,7 @@ public class StatsActivity extends Activity {
 
     private void showMonth() {
         tvRangeTitle.setText("近 30 天");
-        tvLegend.setText("深色 = 提醒 · 绿色 = 有效活动");
+        tvLegend.setText("深色 = 提醒 · 橙色 = 有效活动");
         int n = 30;
         String[] labels = new String[n];
         int[] br = new int[n];
@@ -143,7 +143,7 @@ public class StatsActivity extends Activity {
 
     private void showYear() {
         tvRangeTitle.setText("近 12 个月");
-        tvLegend.setText("深色 = 提醒 · 绿色 = 有效活动");
+        tvLegend.setText("深色 = 提醒 · 橙色 = 有效活动");
         long now = System.currentTimeMillis();
         List<String> keys = new ArrayList<>();
         Map<String, Integer> brMap = new HashMap<>();
@@ -188,7 +188,7 @@ public class StatsActivity extends Activity {
         if (breaks < 0) row.setText(label + "   响应评分 " + alerts + "/10");
         else row.setText(label + "   提醒 " + alerts + " 次 · 有效活动 " + breaks + " 次");
         row.setTextSize(14);
-        row.setTextColor(0xFF3D4F78);
+        row.setTextColor(0xFF4A4038);
         row.setGravity(Gravity.CENTER_VERTICAL);
         row.setPadding(0, (int) (10 * getResources().getDisplayMetrics().density),
                 0, (int) (10 * getResources().getDisplayMetrics().density));

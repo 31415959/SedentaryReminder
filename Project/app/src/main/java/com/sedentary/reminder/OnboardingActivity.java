@@ -78,7 +78,7 @@ public class OnboardingActivity extends Activity {
 
         cbHealth = new CheckBox(this);
         cbHealth.setText("血糖/血压偏高，或医生建议多活动");
-        cbHealth.setTextColor(0xFF1C1F1D);
+        cbHealth.setTextColor(0xFF3F362E);
         cbHealth.setTextSize(16);
         cbHealth.setChecked(p.healthFlag());
         addPage("健康情况", "没有可不勾选，直接下一步", cbHealth);
@@ -103,13 +103,13 @@ public class OnboardingActivity extends Activity {
         done.setPadding(dp(24), dp(24), dp(24), dp(24));
         TextView title = new TextView(this);
         title.setText("设置完成");
-        title.setTextColor(0xFF1C1F1D);
+        title.setTextColor(0xFF3F362E);
         title.setTextSize(26);
         title.setTypeface(null, Typeface.BOLD);
         title.setGravity(Gravity.CENTER);
         done.addView(title);
         tvResult = new TextView(this);
-        tvResult.setTextColor(0xFF6B726E);
+        tvResult.setTextColor(0xFF8A7F73);
         tvResult.setTextSize(15);
         tvResult.setGravity(Gravity.CENTER);
         tvResult.setLineSpacing(dp(4), 1f);
@@ -118,7 +118,7 @@ public class OnboardingActivity extends Activity {
         done.addView(tvResult, rp);
         TextView note = new TextView(this);
         note.setText("这些信息只保存在本机，之后可在“设置 → 个人档案”中修改。");
-        note.setTextColor(0xFF9AA19C);
+        note.setTextColor(0xFFB0A698);
         note.setTextSize(12);
         note.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams np = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -133,13 +133,13 @@ public class OnboardingActivity extends Activity {
         pageView.setPadding(dp(24), dp(30), dp(24), dp(24));
         TextView t = new TextView(this);
         t.setText(title);
-        t.setTextColor(0xFF1C1F1D);
+        t.setTextColor(0xFF3F362E);
         t.setTextSize(25);
         t.setTypeface(null, Typeface.BOLD);
         pageView.addView(t);
         TextView s = new TextView(this);
         s.setText(subtitle);
-        s.setTextColor(0xFF6B726E);
+        s.setTextColor(0xFF8A7F73);
         s.setTextSize(14);
         LinearLayout.LayoutParams sp = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         sp.setMargins(0, dp(8), 0, 0);
@@ -156,7 +156,7 @@ public class OnboardingActivity extends Activity {
         et.setInputType(inputType);
         et.setSingleLine(true);
         et.setBackgroundResource(R.drawable.edit_bg);
-        et.setTextColor(0xFF1C1F1D);
+        et.setTextColor(0xFF3F362E);
         et.setTextSize(17);
         et.setPadding(dp(14), dp(12), dp(14), dp(12));
         return et;

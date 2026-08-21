@@ -34,7 +34,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="个人档案"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -44,7 +44,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:lineSpacingExtra="3dp"
-                        android:textColor="#6B726E"
+                        android:textColor="#8A7F73"
                         android:textSize="13sp" />
 
                     <Button
@@ -54,7 +54,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@drawable/btn_secondary"
                         android:text="填写 / 修改档案"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="15sp" />
                 </LinearLayout>
 
@@ -70,7 +70,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="目标"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -80,7 +80,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="自动调整提醒时间与活动标准（推荐）"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="14sp" />
 
                     <TextView
@@ -89,7 +89,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
                         android:lineSpacingExtra="3dp"
-                        android:textColor="#6B726E"
+                        android:textColor="#8A7F73"
                         android:textSize="12sp" />
 
                     <TextView
@@ -97,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:text="久坐提醒时长（15-240 分钟）"
-                        android:textColor="#5F6863"
+                        android:textColor="#7A7166"
                         android:textSize="13sp" />
 
                     <SeekBar
@@ -112,7 +112,7 @@
                         android:id="@+id/tvSitL"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -125,7 +125,7 @@
                         android:inputType="number"
                         android:maxLength="3"
                         android:padding="12dp"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="14sp" />
 
                     <TextView
@@ -133,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:text="有效活动窗口（1-15 分钟）"
-                        android:textColor="#5F6863"
+                        android:textColor="#7A7166"
                         android:textSize="13sp" />
 
                     <SeekBar
@@ -148,7 +148,7 @@
                         android:id="@+id/tvWinL"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -161,7 +161,7 @@
                         android:inputType="number"
                         android:maxLength="2"
                         android:padding="12dp"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="14sp" />
 
                     <TextView
@@ -169,7 +169,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:text="窗口内最少步数（20-1000 步）"
-                        android:textColor="#5F6863"
+                        android:textColor="#7A7166"
                         android:textSize="13sp" />
 
                     <SeekBar
@@ -184,7 +184,7 @@
                         android:id="@+id/tvStepsL"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="14sp"
                         android:textStyle="bold" />
 
@@ -197,7 +197,7 @@
                         android:inputType="number"
                         android:maxLength="4"
                         android:padding="12dp"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="14sp" />
 
                     <Button
@@ -224,7 +224,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="免打扰时段"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -254,7 +254,7 @@
                             android:inputType="number"
                             android:maxLength="2"
                             android:padding="12dp"
-                            android:textColor="#1C1F1D"
+                            android:textColor="#3F362E"
                             android:textSize="14sp" />
 
                         <TextView
@@ -263,7 +263,7 @@
                             android:paddingStart="10dp"
                             android:paddingEnd="10dp"
                             android:text="至"
-                            android:textColor="#6B726E"
+                            android:textColor="#8A7F73"
                             android:textSize="14sp" />
 
                         <EditText
@@ -276,7 +276,7 @@
                             android:inputType="number"
                             android:maxLength="2"
                             android:padding="12dp"
-                            android:textColor="#1C1F1D"
+                            android:textColor="#3F362E"
                             android:textSize="14sp" />
                     </LinearLayout>
 
@@ -287,7 +287,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@drawable/btn_secondary"
                         android:text="保存时段"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="15sp" />
 
                     <TextView
@@ -296,7 +296,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="12dp"
                         android:lineSpacingExtra="3dp"
-                        android:textColor="#6B726E"
+                        android:textColor="#8A7F73"
                         android:textSize="12sp" />
 
                     <Button
@@ -323,7 +323,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="后台保活"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="17sp"
                         android:textStyle="bold" />
 
@@ -334,7 +334,7 @@
                         android:layout_marginTop="12dp"
                         android:background="@drawable/btn_secondary"
                         android:text="忽略电池优化"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="15sp" />
 
                     <Button
@@ -344,7 +344,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@drawable/btn_secondary"
                         android:text="荣耀/Honor 自启动与后台活动"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="15sp" />
 
                     <Button
@@ -354,7 +354,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@drawable/btn_secondary"
                         android:text="通知与全屏提醒权限"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="15sp" />
 
                     <Button
@@ -364,7 +364,7 @@
                         android:layout_marginTop="10dp"
                         android:background="@drawable/btn_secondary"
                         android:text="悬浮提醒权限（在其他应用上方显示）"
-                        android:textColor="#1C1F1D"
+                        android:textColor="#3F362E"
                         android:textSize="15sp" />
 
                     <TextView
@@ -373,7 +373,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="14dp"
                         android:lineSpacingExtra="3dp"
-                        android:textColor="#6B726E"
+                        android:textColor="#8A7F73"
                         android:textSize="12sp" />
                 </LinearLayout>
 
@@ -382,8 +382,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="14dp"
                     android:gravity="center"
-                    android:text="久坐提醒 v2.2.3 · 数据仅保存在本机"
-                    android:textColor="#9AA19C"
+                    android:text="久坐提醒 v2.3.0 · 数据仅保存在本机"
+                    android:textColor="#B0A698"
                     android:textSize="12sp" />
             </LinearLayout>
         </ScrollView>
