@@ -230,6 +230,16 @@
                         android:textStyle="bold" />
 
                     <CheckBox
+                        android:id="@+id/cbAutoSleep"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="自动识别睡眠：夜间屏幕熄灭且 15 分钟无步行时，暂停提醒"
+                        android:buttonTint="@color/accent_brown"
+                        android:textColor="#3F4944"
+                        android:textSize="14sp" />
+
+                    <CheckBox
                         android:id="@+id/cbQuiet"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

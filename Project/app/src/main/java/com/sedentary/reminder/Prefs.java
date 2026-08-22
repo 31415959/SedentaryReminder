@@ -168,6 +168,10 @@ public final class Prefs {
     public boolean quietEnabled() { return sp.getBoolean("quietEnabled", false); }
     public void setQuietEnabled(boolean v) { sp.edit().putBoolean("quietEnabled", v).apply(); }
 
+    /** 自动睡眠保护：夜间屏幕熄灭且无步行时暂停提醒，避免睡眠中被连续提醒。 */
+    public boolean autoSleep() { return sp.getBoolean("autoSleep", true); }
+    public void setAutoSleep(boolean v) { sp.edit().putBoolean("autoSleep", v).apply(); }
+
     public int quietStart() { return clamp(sp.getInt("quietStart", 23), 0, 23); }
     public void setQuietStart(int v) { sp.edit().putInt("quietStart", clamp(v, 0, 23)).apply(); }
 

@@ -26,7 +26,7 @@ public class SettingsActivity extends Activity {
     private SeekBar sbSit, sbWin, sbSteps;
     private EditText etSit, etWin, etSteps, etQuietStart, etQuietEnd;
     private TextView tvSitL, tvWinL, tvStepsL, tvCheck, tvAdaptive, tvQuietSuggest, tvProfile;
-    private CheckBox cbQuiet, cbAdaptive;
+    private CheckBox cbQuiet, cbAdaptive, cbAutoSleep;
     private Button btnUseSuggest;
 
     @Override
@@ -48,6 +48,7 @@ public class SettingsActivity extends Activity {
         tvStepsL = findViewById(R.id.tvStepsL);
         tvCheck = findViewById(R.id.tvCheck);
         cbQuiet = findViewById(R.id.cbQuiet);
+        cbAutoSleep = findViewById(R.id.cbAutoSleep);
         etQuietStart = findViewById(R.id.etQuietStart);
         etQuietEnd = findViewById(R.id.etQuietEnd);
         cbAdaptive = findViewById(R.id.cbAdaptive);
@@ -57,6 +58,11 @@ public class SettingsActivity extends Activity {
         tvProfile = findViewById(R.id.tvProfile);
 
         cbQuiet.setChecked(p.quietEnabled());
+        cbAutoSleep.setChecked(p.autoSleep());
+        cbAutoSleep.setOnCheckedChangeListener((btn, checked) -> {
+            p.setAutoSleep(checked);
+            restartService();
+        });
         etQuietStart.setText(String.valueOf(p.quietStart()));
         etQuietEnd.setText(String.valueOf(p.quietEnd()));
         cbAdaptive.setChecked(p.autoAdaptive());

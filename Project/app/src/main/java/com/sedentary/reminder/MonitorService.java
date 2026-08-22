@@ -48,11 +48,21 @@ public class MonitorService extends Service implements SensorEventListener {
     private Sensor accSensor;
     private final Handler h = new Handler(Looper.getMainLooper());
     private final ArrayDeque<Long> steps = new ArrayDeque<>();
+    private final ArrayDeque<Long> lightSteps = new ArrayDeque<>();
+    private PowerManager pm;
     private PowerManager.WakeLock wl;
     private NotificationManager nm;
     private long now;
     private long lastStepAt;
+    private long lastMotionAt;
+    private long serviceStartAt;
     private boolean activePhase;
+    private boolean sleeping;
+    private long lastSleepBreakAt;
+    private long lastLightCreditAt;
+    private int lightCreditsInSession;
+    private float[] lastAcc;
+    private long lastMotionPulseAt;
     private View overlayView;
     private long sessionTargetMs;
     private long lastSnapshotAt;
@@ -83,7 +93,20 @@ public class MonitorService extends Service implements SensorEventListener {
                 lastSnapshotAt = now;
                 p.snapshotAdaptive();
             }
-            checkAlert();
+            boolean asleep = p.autoSleep() && looksAsleep(now);
+            if (asleep && !sleeping) {
+                enterSleep(now);
+            } else if (!asleep && sleeping) {
+                wakeFromSleep(now);
+            }
+            if (sleeping) {
+                if (now - lastSleepBreakAt >= 60000L) {
+                    lastSleepBreakAt = now;
+                    p.setLastBreak(now);
+                }
+            } else {
+                checkAlert();
+            }
             updateStatus();
             sendStateBroadcast();
             h.postDelayed(this, 1000);
@@ -101,7 +124,7 @@ public class MonitorService extends Service implements SensorEventListener {
         }
         nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         createChannels();
-        PowerManager pm = (PowerManager) getSystemService(POWER_SERVICE);
+        pm = (PowerManager) getSystemService(POWER_SERVICE);
         if (pm != null) {
             wl = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, "sedentary:monitor");
             wl.setReferenceCounted(false);
@@ -128,6 +151,12 @@ public class MonitorService extends Service implements SensorEventListener {
             running = true;
             registerSensors();
             steps.clear();
+            lightSteps.clear();
+            lightCreditsInSession = 0;
+            lastLightCreditAt = 0;
+            sleeping = false;
+            lastSleepBreakAt = 0;
+            serviceStartAt = System.currentTimeMillis();
             if (p.lastBreak() <= 0) p.setLastBreak(System.currentTimeMillis());
             recalcTarget();
         }
@@ -187,23 +216,54 @@ public class MonitorService extends Service implements SensorEventListener {
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (event.sensor.getType() != Sensor.TYPE_STEP_DETECTOR) return;
-        long t = System.currentTimeMillis();
-        long winMs = p.effectiveWinMinutes() * 60000L;
-        steps.addLast(t);
-        while (!steps.isEmpty() && t - steps.peekFirst() > winMs) steps.removeFirst();
-        if (steps.size() >= p.effectiveWinSteps()) {
-            recordBreak(t);
-        }
-        if (activePhase) {
-            // 达标后仍连续走动（90 秒内有下一步）就持续顺延，不开始下一轮久坐计时
-            if (t - lastStepAt <= 90 * 1000L) {
-                p.setLastBreak(t);
-            } else {
-                activePhase = false;
+        if (event.sensor.getType() == Sensor.TYPE_STEP_DETECTOR) {
+            long t = System.currentTimeMillis();
+            long winMs = p.effectiveWinMinutes() * 60000L;
+            steps.addLast(t);
+            while (!steps.isEmpty() && t - steps.peekFirst() > winMs) steps.removeFirst();
+            boolean fullBreak = steps.size() >= p.effectiveWinSteps();
+            if (fullBreak) {
+                recordBreak(t);
             }
+            if (activePhase) {
+                // 达标后仍连续走动（90 秒内有下一步）就持续顺延，不开始下一轮久坐计时
+                if (t - lastStepAt <= 90 * 1000L) {
+                    p.setLastBreak(t);
+                } else {
+                    activePhase = false;
+                }
+            }
+            // 低频步数（步与步之间超过 1.5 秒）作为低强度活动累计。
+            if (!fullBreak && (lastStepAt == 0 || t - lastStepAt > 1500L)) {
+                accumulateLightActivity(t);
+            }
+            lastStepAt = t;
+            lastMotionAt = t;
+            return;
         }
-        lastStepAt = t;
+        if (event.sensor.getType() == Sensor.TYPE_ACCELEROMETER) {
+            long t = System.currentTimeMillis();
+            float x = event.values[0];
+            float y = event.values[1];
+            float z = event.values[2];
+            if (lastAcc != null) {
+                float dx = x - lastAcc[0];
+                float dy = y - lastAcc[1];
+                float dz = z - lastAcc[2];
+                float mag = (float) Math.sqrt(dx * dx + dy * dy + dz * dz);
+                // 明显晃动但又不是持续步行的活动（起身、伸懒腰、接水等）也计入低强度活动。
+                if (mag > 2.5f && (lastMotionPulseAt == 0 || t - lastMotionPulseAt >= 2000L)) {
+                    lastMotionPulseAt = t;
+                    lastMotionAt = t;
+                    accumulateLightActivity(t);
+                }
+            } else {
+                lastAcc = new float[3];
+            }
+            lastAcc[0] = x;
+            lastAcc[1] = y;
+            lastAcc[2] = z;
+        }
     }
 
     private void recordBreak(long t) {
@@ -233,6 +293,9 @@ public class MonitorService extends Service implements SensorEventListener {
         p.setLastPreAlert(0);
         p.setAlertLevel(0);
         steps.clear();
+        lightSteps.clear();
+        lightCreditsInSession = 0;
+        lastLightCreditAt = 0;
         if (nm != null) {
             nm.cancel(NOTIF_ALERT);
             nm.cancel(NOTIF_PRE);
@@ -245,6 +308,68 @@ public class MonitorService extends Service implements SensorEventListener {
         }
         updateStatus();
         sendStateBroadcast();
+    }
+
+    /** 低强度活动累计：30 分钟内少量走动/明显晃动达到目标一半，给久坐计时延长 5 分钟。 */
+    private void accumulateLightActivity(long t) {
+        long windowMs = 30 * 60000L;
+        lightSteps.addLast(t);
+        while (!lightSteps.isEmpty() && t - lightSteps.peekFirst() > windowMs) lightSteps.removeFirst();
+        int lightTarget = Math.max(20, p.effectiveWinSteps() / 2);
+        if (lightSteps.size() < lightTarget) return;
+        if (lastLightCreditAt != 0 && t - lastLightCreditAt < 2 * 60000L) return;
+        if (lightCreditsInSession >= 4) return;
+        lightCreditsInSession++;
+        lastLightCreditAt = t;
+        long creditMs = 5 * 60000L;
+        p.setLastBreak(Math.min(t, p.lastBreak() + creditMs));
+        lightSteps.clear();
+        updateStatus();
+        sendStateBroadcast();
+    }
+
+    /** 夜间屏幕熄灭且 15 分钟无步行时进入睡眠保护，避免睡眠期间连续提醒。 */
+    private boolean looksAsleep(long t) {
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        if (hour >= 11 && hour < 20) return false;
+        boolean screenOff = pm == null || !pm.isInteractive();
+        if (!screenOff) return false;
+        long sinceStep = lastStepAt > 0 ? t - lastStepAt : t - Math.max(serviceStartAt, 1);
+        return sinceStep >= 15 * 60000L;
+    }
+
+    private void enterSleep(long t) {
+        sleeping = true;
+        p.setLastBreak(t);
+        p.setLastAlert(0);
+        p.setLastPreAlert(0);
+        p.setAlertLevel(0);
+        lastSleepBreakAt = t;
+        steps.clear();
+        lightSteps.clear();
+        lightCreditsInSession = 0;
+        if (nm != null) {
+            nm.cancel(NOTIF_ALERT);
+            nm.cancel(NOTIF_PRE);
+        }
+    }
+
+    private void wakeFromSleep(long t) {
+        sleeping = false;
+        p.setLastBreak(t);
+        p.setLastAlert(0);
+        p.setLastPreAlert(0);
+        p.setAlertLevel(0);
+        steps.clear();
+        lightSteps.clear();
+        lightCreditsInSession = 0;
+        lastLightCreditAt = 0;
+        recalcTarget();
+        if (nm != null) {
+            nm.cancel(NOTIF_ALERT);
+            nm.cancel(NOTIF_PRE);
+        }
     }
 
     private void notifyBreakComplete() {
@@ -410,7 +535,9 @@ public class MonitorService extends Service implements SensorEventListener {
         int mm = (int) (el / 60000L);
         int ss = (int) ((el / 1000L) % 60L);
         String text;
-        if (isMovingAt(t)) {
+        if (sleeping) {
+            text = "睡眠中，久坐计时与提醒已暂停";
+        } else if (isMovingAt(t)) {
             text = "正在活动，久坐计时顺延中";
         } else if (p.lastAlert() > 0) {
             long sinceAlert = t - p.lastAlert();
@@ -444,13 +571,15 @@ public class MonitorService extends Service implements SensorEventListener {
     }
 
     private boolean isMovingAt(long t) {
-        return lastStepAt > 0 && t - lastStepAt <= 60 * 1000L;
+        if (lastStepAt > 0 && t - lastStepAt <= 60 * 1000L) return true;
+        return lastMotionAt > 0 && t - lastMotionAt <= 60 * 1000L;
     }
 
     private void sendStateBroadcast() {
         Intent i = new Intent(Prefs.ACTION_STATE).setPackage(getPackageName());
         i.putExtra("elapsed", Math.max(0, now - p.lastBreak()));
         i.putExtra("moving", isMovingAt(now));
+        i.putExtra("sleeping", sleeping);
         sendBroadcast(i);
     }
 

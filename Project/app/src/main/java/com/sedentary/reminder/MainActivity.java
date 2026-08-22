@@ -39,6 +39,7 @@ public class MainActivity extends Activity {
     private BroadcastReceiver r;
     private boolean pendingStart;
     private boolean moving;
+    private boolean sleeping;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class MainActivity extends Activity {
                     toast("已记录有效活动，计时清零");
                 }
                 moving = intent.getBooleanExtra("moving", moving);
+                sleeping = intent.getBooleanExtra("sleeping", sleeping);
                 updateUi();
             }
         };
@@ -227,6 +229,14 @@ public class MainActivity extends Activity {
             tvDetail.setTextColor(dark);
             tvDetail.setText(detail);
             prog = 0;
+        } else if (sleeping) {
+            tvStatus.setText("睡眠中");
+            tvStatus.setTextColor(dark);
+            detail = "检测到你在休息，久坐计时与提醒已暂停";
+            tvDetail.setTextColor(dark);
+            tvDetail.setText(detail);
+            prog = 0;
+            statColor = brown;
         } else if (moving) {
             tvStatus.setText("正在活动");
             tvStatus.setTextColor(getColor(R.color.accent_soft_green));

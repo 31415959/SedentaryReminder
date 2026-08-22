@@ -3,7 +3,8 @@ param(
     [ValidateSet('rich', 'zero', 'near', 'overtime', 'alert', 'stopped', 'clean')]
     [string]$State = 'rich',
     [string]$ShotDir = '',
-    [switch]$NoStart
+    [switch]$NoStart,
+    [switch]$Force
 )
 
 $ErrorActionPreference = 'Continue'
@@ -222,11 +223,15 @@ $xmlPath = Join-Path $localDir "sedentary-$serialSafe-$State.xml"
 [System.IO.File]::WriteAllText($xmlPath, $sb.ToString(), [System.Text.UTF8Encoding]::new($false))
 
 # Stop app before replacing prefs, then push as root.
+$remote = "/data/data/com.sedentary.reminder/shared_prefs/sedentary.xml"
+$existing = Invoke-Adb shell "test -f $remote && echo EXISTS" 2>&1 | Out-String
+if ($existing -match 'EXISTS' -and -not $Force) {
+    throw "Prefs already exist on $Serial. This script overwrites ALL app data; re-run with -Force to confirm."
+}
 Invoke-Adb shell am force-stop com.sedentary.reminder | Out-Null
 $pushOut = Invoke-Adb push $xmlPath /data/local/tmp/sedentary-seed.xml 2>&1 | Out-String
 if ($LASTEXITCODE -ne 0) { throw "adb push failed: $pushOut" }
 
-$remote = "/data/data/com.sedentary.reminder/shared_prefs/sedentary.xml"
 $cmd = "cp /data/local/tmp/sedentary-seed.xml $remote && chmod 660 $remote && chown ${uid}:${uid} $remote"
 $cpOut = Invoke-Adb shell $cmd 2>&1 | Out-String
 if ($LASTEXITCODE -ne 0) { throw "write prefs failed: $cpOut" }

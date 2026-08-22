@@ -49,7 +49,7 @@ public class StatsChartView extends View {
         float bw = Math.min(dense ? 5 * dp : 12 * dp, slot * 0.32f);
         float gap = dense ? 1.5f * dp : 2 * dp;
         int labelStep = 1;
-        if (labels.length >= 30) labelStep = 5;
+        if (labels.length >= 30) labelStep = 6;
         else if (labels.length >= 20) labelStep = 4;
         else if (labels.length >= 12) labelStep = 2;
         int max = 1;
