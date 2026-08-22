@@ -48,8 +48,9 @@ public class StatsActivity extends Activity {
         int sitMin = p.sumLast("sitSumSec", 7) / 60;
         int avg = p.avgSitMinutesLast7();
         int streak = p.streakDays();
-        ((TextView) findViewById(R.id.tvWeekSummary1))
-                .setText("有效活动 " + wb + " 次 · 提醒 " + wa + " 次 · 连续达标 " + streak + " 天");
+        ((TextView) findViewById(R.id.tvWeekBreaks)).setText(wb + " 次");
+        ((TextView) findViewById(R.id.tvWeekAlerts)).setText(wa + " 次");
+        ((TextView) findViewById(R.id.tvWeekStreak)).setText(streak + " 天");
         ((TextView) findViewById(R.id.tvWeekSummary2))
                 .setText("累计久坐 " + sitMin + " 分钟 · 平均每次 "
                         + (avg > 0 ? avg + " 分钟" : "数据积累中"));

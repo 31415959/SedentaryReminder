@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
     android:layout_height="match_parent"
-    android:background="#FFFFFF"
+    android:background="@color/card_bg"
     android:orientation="vertical"
     android:paddingStart="22dp"
     android:paddingTop="26dp"
@@ -44,6 +44,9 @@
         android:minHeight="0dp"
         android:paddingStart="14dp"
         android:paddingEnd="14dp"
+        android:drawableStart="@drawable/ic_nav_home"
+        android:drawablePadding="14dp"
+        android:drawableTint="@color/accent_brown"
         android:stateListAnimator="@null"
         android:text="首页"
         android:textColor="#3F362E"
@@ -61,6 +64,9 @@
         android:minHeight="0dp"
         android:paddingStart="14dp"
         android:paddingEnd="14dp"
+        android:drawableStart="@drawable/ic_nav_stats"
+        android:drawablePadding="14dp"
+        android:drawableTint="@color/accent_brown"
         android:stateListAnimator="@null"
         android:text="统计"
         android:textColor="#3F362E"
@@ -78,6 +84,9 @@
         android:minHeight="0dp"
         android:paddingStart="14dp"
         android:paddingEnd="14dp"
+        android:drawableStart="@drawable/ic_nav_settings"
+        android:drawablePadding="14dp"
+        android:drawableTint="@color/accent_brown"
         android:stateListAnimator="@null"
         android:text="设置"
         android:textColor="#3F362E"
@@ -89,9 +98,10 @@
         android:layout_weight="1" />
 
     <TextView
+        android:id="@+id/tvVersion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="v2.3.1"
+        android:text=""
         android:textColor="#B0B7B3"
         android:textSize="12sp" />
 </LinearLayout>

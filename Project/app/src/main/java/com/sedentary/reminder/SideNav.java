@@ -2,8 +2,11 @@ package com.sedentary.reminder;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class SideNav {
     private final Activity a;
@@ -21,6 +24,15 @@ public class SideNav {
         View menu = activity.findViewById(R.id.btnMenu);
         if (menu != null) menu.setOnClickListener(v -> toggle());
         if (scrim != null) scrim.setOnClickListener(v -> close());
+        TextView version = activity.findViewById(R.id.tvVersion);
+        if (version != null) {
+            try {
+                PackageInfo pi = activity.getPackageManager()
+                        .getPackageInfo(activity.getPackageName(), 0);
+                version.setText("v" + pi.versionName);
+            } catch (PackageManager.NameNotFoundException ignored) {
+            }
+        }
         hook(R.id.navHome, MainActivity.class);
         hook(R.id.navStats, StatsActivity.class);
         hook(R.id.navSettings, SettingsActivity.class);

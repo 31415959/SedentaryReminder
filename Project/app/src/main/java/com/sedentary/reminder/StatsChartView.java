@@ -45,7 +45,9 @@ public class StatsChartView extends View {
         float top = 24 * dp;
         float bottom = h - 30 * dp;
         float slot = w / labels.length;
-        float bw = Math.min(12 * dp, slot * 0.32f);
+        boolean dense = labels.length >= 30;
+        float bw = Math.min(dense ? 5 * dp : 12 * dp, slot * 0.32f);
+        float gap = dense ? 1.5f * dp : 2 * dp;
         int labelStep = 1;
         if (labels.length >= 30) labelStep = 5;
         else if (labels.length >= 20) labelStep = 4;
@@ -59,16 +61,18 @@ public class StatsChartView extends View {
             float cx = slot * i + slot / 2f;
             float ha = alerts[i] * usable / max;
             float hb = breaks[i] * usable / max;
-            canvas.drawRoundRect(cx - bw - 2 * dp, bottom - ha, cx - 2 * dp, bottom, 4 * dp, 4 * dp, barP);
-            canvas.drawRoundRect(cx + 2 * dp, bottom - hb, cx + bw + 2 * dp, bottom, 4 * dp, 4 * dp, barG);
+            canvas.drawRoundRect(cx - bw - gap, bottom - ha, cx - gap, bottom, 4 * dp, 4 * dp, barP);
+            canvas.drawRoundRect(cx + gap, bottom - hb, cx + bw + gap, bottom, 4 * dp, 4 * dp, barG);
             if (showMark && alerts[i] > 0) {
-                canvas.drawText(String.valueOf(alerts[i]), cx - bw / 2f, bottom - ha - 5 * dp, smallP);
+                canvas.drawText(String.valueOf(alerts[i]), cx - gap - bw / 2f, bottom - ha - 5 * dp, smallP);
             }
             if (showMark && breaks[i] > 0) {
-                canvas.drawText(String.valueOf(breaks[i]), cx + bw / 2f, bottom - hb - 5 * dp, smallP);
+                canvas.drawText(String.valueOf(breaks[i]), cx + gap + bw / 2f, bottom - hb - 5 * dp, smallP);
             }
             if (showMark) {
-                canvas.drawText(labels[i], cx, h - 8 * dp, txtP);
+                float half = txtP.measureText(labels[i]) / 2f;
+                float lx = Math.max(4 * dp + half, Math.min(w - 4 * dp - half, cx));
+                canvas.drawText(labels[i], lx, h - 8 * dp, txtP);
             }
         }
     }

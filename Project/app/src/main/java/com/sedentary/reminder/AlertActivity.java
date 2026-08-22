@@ -29,9 +29,10 @@ public class AlertActivity extends Activity {
         long el = Math.max(0, System.currentTimeMillis() - p.lastBreak());
         int mm = (int) (el / 60000L);
         TextView tv = findViewById(R.id.tvAlertInfo);
-        tv.setText("您已静坐约 " + mm + " 分钟。\n\n当前活动标准：\n"
+        String sitText = mm == 0 ? "您已静坐不到 1 分钟。" : "您已静坐约 " + mm + " 分钟。";
+        tv.setText(sitText + "\n\n当前活动标准：\n"
                 + p.effectiveWinMinutes() + " 分钟内累计步行 ≥ " + p.effectiveWinSteps() + " 步。\n\n"
-                + "拿手机、翻身、床到桌的几米走动不算；达标后计时自动清零并关闭提醒。");
+                + "拿手机、翻身等短距离走动不计入；达标后计时自动清零并关闭提醒。");
 
         Button btn = findViewById(R.id.btnDismiss);
         btn.setText("知道了，" + p.effectiveRepeatMinutes() + " 分钟后再提醒");

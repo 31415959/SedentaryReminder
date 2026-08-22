@@ -6,7 +6,7 @@ param(
     [switch]$NoStart
 )
 
-$ErrorActionPreference = 'Stop'
+$ErrorActionPreference = 'Continue'
 $adb = 'H:\SedentaryReminder\BuildEnv\sdk\platform-tools\adb.exe'
 if (-not (Test-Path $adb)) { throw "adb not found: $adb" }
 
@@ -34,6 +34,12 @@ else {
     $dump = ((Invoke-Adb shell dumpsys package com.sedentary.reminder) | Out-String)
     $m = [regex]::Match($dump, 'userId=(\d+)')
     if ($m.Success) { $uid = $m.Groups[1].Value }
+}
+
+# This script replaces /data/data/... prefs: it requires root adbd.
+$rootId = ((Invoke-Adb shell id -u) | Out-String).Trim()
+if ($rootId -ne '0') {
+    throw "adbd is not root on $Serial (id=$rootId). Run 'adb -s $Serial root' first, or use a root emulator."
 }
 
 $sb = [System.Text.StringBuilder]::new(200000)
@@ -95,8 +101,19 @@ if ($State -ne 'clean') {
             else { $breaks = 2 + (($off * 7) % 4); $alerts = $breaks + (($off * 5) % 4) }
         }
 
-        $respOk = [int]([Math]::Floor($alerts * 0.7))
-        $respMiss = $alerts - $respOk
+        # Last 7 days use a fixed 14 ok / 6 miss split (=70%).
+        $ok7 = @(1, 2, 2, 2, 1, 3, 3)
+        $miss7 = @(0, 1, 1, 1, 1, 1, 1)
+        if ($off -lt 7) {
+            $respOk = $ok7[$off]
+            $respMiss = $miss7[$off]
+            $last7RespOk += $respOk
+            $last7RespMiss += $respMiss
+        }
+        else {
+            $respOk = [int]([Math]::Floor($alerts * 0.7))
+            $respMiss = $alerts - $respOk
+        }
         $sitSec = $breaks * (30 + ($off % 6) * 5) * 60
 
         Add-Int "t_${key}_breaks" $breaks
@@ -105,15 +122,13 @@ if ($State -ne 'clean') {
         Add-Int "t_${key}_respMiss" $respMiss
         Add-Int "t_${key}_sitSumSec" $sitSec
         Add-Int "t_${key}_sitCount" $breaks
-
-        if ($off -lt 7) {
-            $last7RespOk += $respOk
-            $last7RespMiss += $respMiss
-        }
     }
 
+
     # ---------- adaptive snapshots for the last 7 days ----------
-    $targets = @(30, 35, 40, 45, 50, 40, 35)
+    # Today is set to 40: service will snapshotAdaptive() shortly after start,
+    # and effectiveSitMinutes() is 40 with this dataset, so the point stays stable.
+    $targets = @(30, 35, 40, 45, 50, 40, 40)
     $scores  = @(3, 5, 8, 6, 7, 4, 9)
     $steps7  = @(80, 100, 120, 130, 110, 100, 90)
     for ($i = 0; $i -lt 7; $i++) {
@@ -125,7 +140,7 @@ if ($State -ne 'clean') {
 
     # ---------- hour / daypart scores ----------
     for ($h = 0; $h -lt 24; $h++) {
-        if ($h -ge 0 -and $h -le 5) { $v = 2 + ($h % 3) }
+        if ($h -ge 0 -and $h -le 5) { $v = 2 + ($h % 2) }
         elseif ($h -ge 9 -and $h -le 11) { $v = 7 + ($h % 2) }
         elseif ($h -ge 14 -and $h -le 16) { $v = 7 + (($h + 1) % 3) }
         else { $v = 4 + ($h % 3) }
@@ -208,10 +223,16 @@ $xmlPath = Join-Path $localDir "sedentary-$serialSafe-$State.xml"
 
 # Stop app before replacing prefs, then push as root.
 Invoke-Adb shell am force-stop com.sedentary.reminder | Out-Null
-Invoke-Adb push $xmlPath /data/local/tmp/sedentary-seed.xml | Out-Null
+$pushOut = Invoke-Adb push $xmlPath /data/local/tmp/sedentary-seed.xml 2>&1 | Out-String
+if ($LASTEXITCODE -ne 0) { throw "adb push failed: $pushOut" }
+
 $remote = "/data/data/com.sedentary.reminder/shared_prefs/sedentary.xml"
 $cmd = "cp /data/local/tmp/sedentary-seed.xml $remote && chmod 660 $remote && chown ${uid}:${uid} $remote"
-Invoke-Adb shell $cmd | Out-Null
+$cpOut = Invoke-Adb shell $cmd 2>&1 | Out-String
+if ($LASTEXITCODE -ne 0) { throw "write prefs failed: $cpOut" }
+
+$verify = Invoke-Adb shell "test -s $remote && echo SEED_OK" 2>&1 | Out-String
+if ($verify -notmatch 'SEED_OK') { throw "seed verification failed: $verify" }
 
 Write-Host "seeded $State on $Serial (device date=$today hour=$hour uid=$uid)"
 Write-Host "local xml: $xmlPath"

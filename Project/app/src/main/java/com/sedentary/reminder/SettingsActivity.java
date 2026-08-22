@@ -337,8 +337,8 @@ public class SettingsActivity extends Activity {
                 + " · 计步传感器 " + sensor + "\n提醒声道 " + chn + " · 系统模式 " + mode
                 + " · 悬浮提醒 " + overlay
                 + "\n自适应：总体响应 " + p.pressure() + "/10 · 本时段响应 "
-                + p.daypartScore(p.currentDaypart()) + "/10 · 7天响应率 " + comp
-                + " · 实际目标 " + p.effectiveSitMinutes() + " 分钟";
+                + p.daypartScore(p.currentDaypart()) + "/10 · 7 天响应率 " + comp
+                + "\n实际目标 " + p.effectiveSitMinutes() + " 分钟";
     }
 
     private void toast(String msg) {

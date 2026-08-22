@@ -399,7 +399,8 @@ public class MonitorService extends Service implements SensorEventListener {
         }
         if (level == 0) return base + "。目标：" + p.effectiveWinMinutes() + " 分钟内 " + p.effectiveWinSteps() + " 步。";
         if (level == 1) return "已经提醒过一次了。你已静坐 " + mins + " 分钟，这次认真起来走走吧。";
-        return "第 " + (level + 1) + " 次提醒：你已静坐 " + mins + " 分钟。现在放下手机，起来走 " + p.effectiveWinMinutes() + " 分钟。";
+        return "第 " + (level + 1) + " 次提醒：你已静坐 " + mins + " 分钟。起来活动片刻："
+                + p.effectiveWinMinutes() + " 分钟内累计 " + p.effectiveWinSteps() + " 步。";
     }
 
     private Notification statusNotification() {
