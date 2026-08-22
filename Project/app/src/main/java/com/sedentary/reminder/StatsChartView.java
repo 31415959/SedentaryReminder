@@ -42,7 +42,7 @@ public class StatsChartView extends View {
         if (labels.length == 0) return;
         float w = getWidth();
         float h = getHeight();
-        float top = 18 * dp;
+        float top = 24 * dp;
         float bottom = h - 30 * dp;
         float slot = w / labels.length;
         float bw = Math.min(12 * dp, slot * 0.32f);

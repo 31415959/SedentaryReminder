@@ -26,6 +26,14 @@
 - 新截图：`screenshots\seed\seed_stats_month_ui5.png`（待人工复核）。
 - 视觉模型本轮预算耗尽，日视图/年视图未做模型级复看，仅代码路径确认抽稀逻辑生效。
 
+## ui6 补充（日视图数值标签顶部余量）
+
+- ui5 视觉复核：12 个月视图标签无重叠、数值清晰、双柱可区分；“今日 24 小时”标签抽稀正常，仅数值标签距柱顶偏近。
+- 修复：`StatsChartView` 顶部留白 18dp → 24dp，给最高柱数值标签留出呼吸空间。
+- 新包：`H:\SedentaryReminder\APK\SedentaryReminder-v2.3.1-ui6.apk`；已安装两台模拟器。
+- 新截图：`screenshots\seed\seed_stats_day_ui6.png`（视觉模型预算耗尽，未做模型级复看）。
+
+
 
 ## 数据说明
 
