@@ -31,9 +31,10 @@
                     android:padding="18dp">
 
                     <TextView
+                        android:id="@+id/tvSummaryTitle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="最近一周"
+                        android:text="近 7 天概览"
                         android:textColor="#8A7F73"
                         android:textSize="13sp" />
 

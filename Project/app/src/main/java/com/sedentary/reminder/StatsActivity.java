@@ -22,7 +22,8 @@ public class StatsActivity extends Activity {
     private StatsChartView chart;
     private TrendChartView trend;
     private LinearLayout box;
-    private TextView tvRangeTitle, tvLegend;
+    private TextView tvRangeTitle, tvLegend, tvSummaryTitle;
+    private TextView tvWeekBreaks, tvWeekAlerts, tvWeekStreak, tvWeekSummary2;
     private int range = 1;
 
     @Override
@@ -37,23 +38,14 @@ public class StatsActivity extends Activity {
         box = findViewById(R.id.llDays);
         tvRangeTitle = findViewById(R.id.tvRangeTitle);
         tvLegend = findViewById(R.id.tvLegend);
+        tvSummaryTitle = findViewById(R.id.tvSummaryTitle);
+        tvWeekBreaks = findViewById(R.id.tvWeekBreaks);
+        tvWeekAlerts = findViewById(R.id.tvWeekAlerts);
+        tvWeekStreak = findViewById(R.id.tvWeekStreak);
+        tvWeekSummary2 = findViewById(R.id.tvWeekSummary2);
 
-        int tb = p.today("breaks");
-        int ta = p.today("alerts");
-        ((TextView) findViewById(R.id.tvTodayBreaks)).setText(String.valueOf(tb));
-        ((TextView) findViewById(R.id.tvTodayAlerts)).setText(String.valueOf(ta));
-
-        int wb = p.sumLast("breaks", 7);
-        int wa = p.sumLast("alerts", 7);
-        int sitMin = p.sumLast("sitSumSec", 7) / 60;
-        int avg = p.avgSitMinutesLast7();
-        int streak = p.streakDays();
-        ((TextView) findViewById(R.id.tvWeekBreaks)).setText(wb + " 次");
-        ((TextView) findViewById(R.id.tvWeekAlerts)).setText(wa + " 次");
-        ((TextView) findViewById(R.id.tvWeekStreak)).setText(streak + " 天");
-        ((TextView) findViewById(R.id.tvWeekSummary2))
-                .setText("累计久坐 " + sitMin + " 分钟 · 平均每次 "
-                        + (avg > 0 ? avg + " 分钟" : "数据积累中"));
+        ((TextView) findViewById(R.id.tvTodayBreaks)).setText(String.valueOf(p.today("breaks")));
+        ((TextView) findViewById(R.id.tvTodayAlerts)).setText(String.valueOf(p.today("alerts")));
 
         showTrend();
 
@@ -68,7 +60,7 @@ public class StatsActivity extends Activity {
                     .addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
             finish();
         });
-        findViewById(R.id.btnShare).setOnClickListener(v -> shareReport(wb, wa, sitMin, avg, streak));
+        findViewById(R.id.btnShare).setOnClickListener(v -> shareReport());
     }
 
     private void setRange(int r) {
@@ -84,23 +76,54 @@ public class StatsActivity extends Activity {
                 b.setTextColor(0xFF1C1F1D);
             }
         }
+        updateSummary(r);
         if (r == 0) showDay();
         else if (r == 1) showWeek();
         else if (r == 2) showMonth();
         else showYear();
     }
 
+    /** 顶部摘要随周期联动：数值按当前范围聚合，标题随视图切换。 */
+    private void updateSummary(int r) {
+        long now = System.currentTimeMillis();
+        int days;
+        String title;
+        switch (r) {
+            case 0: days = 1; title = "今日概览"; break;
+            case 1: days = 7; title = "近 7 天概览"; break;
+            case 2: days = 30; title = "近 30 天概览"; break;
+            default: days = 365; title = "近 12 个月概览"; break;
+        }
+        tvSummaryTitle.setText(title);
+        tvWeekBreaks.setText(p.sumLast("breaks", days) + " 次");
+        tvWeekAlerts.setText(p.sumLast("alerts", days) + " 次");
+        tvWeekStreak.setText(p.streakDays() + " 天");
+        int sitMin = p.sumLast("sitSumSec", days) / 60;
+        int avg = avgFor(days);
+        tvWeekSummary2.setText("累计久坐 " + sitMin + " 分钟 · 平均每次 "
+                + (avg > 0 ? avg + " 分钟" : "数据积累中"));
+    }
+
+    private int avgFor(int days) {
+        int sec = p.sumLast("sitSumSec", days);
+        int cnt = p.sumLast("sitCount", days);
+        if (cnt <= 0 || sec <= 0) return 0;
+        return sec / cnt / 60;
+    }
+
     private void showDay() {
         tvRangeTitle.setText("今日 24 小时");
-        tvLegend.setText("深色 = 各小时响应评分（0-10，5 为中性）");
+        tvLegend.setText("橙虚线 = 均值 · 深色 = 各小时响应评分（0-10，5 为中性）");
         String[] labels = new String[24];
         int[] score = new int[24];
         int[] zero = new int[24];
+        float sum = 0;
         for (int i = 0; i < 24; i++) {
-            labels[i] = (i % 2 == 0) ? i + "时" : "";
+            labels[i] = i + "时";
             score[i] = p.hourScore(i);
+            sum += score[i];
         }
-        chart.setData(labels, score, zero);
+        chart.setData(labels, score, zero, null, sum / 24f);
         box.removeAllViews();
         String[] names = {"夜间 0-5", "上午 6-11", "下午 12-17", "晚上 18-23"};
         for (int i = 0; i < 4; i++) {
@@ -110,42 +133,52 @@ public class StatsActivity extends Activity {
 
     private void showWeek() {
         tvRangeTitle.setText("近 7 天");
-        tvLegend.setText("深灰 = 提醒 · 摩卡 = 有效活动");
+        tvLegend.setText("橙虚线 = 均值 · 深灰 = 提醒 · 摩卡 = 有效活动");
         String[] labels = new String[7];
         int[] br = new int[7];
         int[] al = new int[7];
         long now = System.currentTimeMillis();
+        float sumBr = 0;
         for (int i = 0; i < 7; i++) {
             String key = Prefs.keyFor(now - (6 - i) * 86400000L);
             labels[i] = key.substring(4, 6) + "/" + key.substring(6, 8);
             br[i] = p.statForDate(key, "breaks");
             al[i] = p.statForDate(key, "alerts");
+            sumBr += br[i];
         }
-        chart.setData(labels, al, br);
+        chart.setData(labels, al, br, null, sumBr / 7f);
         fillRows(labels, al, br, 7);
     }
 
     private void showMonth() {
-        tvRangeTitle.setText("近 30 天");
-        tvLegend.setText("深灰 = 提醒 · 摩卡 = 有效活动");
         int n = 30;
+        long now = System.currentTimeMillis();
+        String k0 = Prefs.keyFor(now - (n - 1) * 86400000L);
+        String k1 = Prefs.keyFor(now);
+        tvRangeTitle.setText("近 30 天 · " + Integer.parseInt(k0.substring(4, 6)) + "/"
+                + Integer.parseInt(k0.substring(6, 8)) + " - "
+                + Integer.parseInt(k1.substring(4, 6)) + "/"
+                + Integer.parseInt(k1.substring(6, 8)));
+        tvLegend.setText("橙虚线 = 均值 · 深灰 = 提醒 · 摩卡 = 有效活动");
         String[] labels = new String[n];
         int[] br = new int[n];
         int[] al = new int[n];
-        long now = System.currentTimeMillis();
+        float sumBr = 0;
         for (int i = 0; i < n; i++) {
             String key = Prefs.keyFor(now - (n - 1 - i) * 86400000L);
-            labels[i] = key.substring(4, 6) + "/" + key.substring(6, 8);
+            labels[i] = Integer.parseInt(key.substring(4, 6)) + "/"
+                    + Integer.parseInt(key.substring(6, 8));
             br[i] = p.statForDate(key, "breaks");
             al[i] = p.statForDate(key, "alerts");
+            sumBr += br[i];
         }
-        chart.setData(labels, al, br);
+        chart.setData(labels, al, br, null, sumBr / n);
         fillRows(labels, al, br, n);
     }
 
     private void showYear() {
         tvRangeTitle.setText("近 12 个月");
-        tvLegend.setText("深灰 = 提醒 · 摩卡 = 有效活动");
+        tvLegend.setText("橙虚线 = 均值 · 深灰 = 提醒 · 摩卡 = 有效活动（次/天）");
         long now = System.currentTimeMillis();
         List<String> keys = new ArrayList<>();
         Map<String, Integer> brMap = new HashMap<>();
@@ -169,12 +202,30 @@ public class StatsActivity extends Activity {
         String[] labels = new String[n];
         int[] br = new int[n];
         int[] al = new int[n];
+        float[] per = new float[n];
+        float sumDaily = 0;
         for (int i = 0; i < n; i++) {
-            labels[i] = keys.get(i).substring(5) + "月";
+            int month = Integer.parseInt(keys.get(i).substring(5));
+            labels[i] = String.valueOf(month);
             br[i] = brMap.get(keys.get(i));
             al[i] = alMap.get(keys.get(i));
+            boolean isCurrent = keys.get(i).equals(
+                    f.format(new Date(now)));
+            int dim;
+            if (isCurrent) {
+                cal.setTime(new Date(now));
+                dim = cal.get(Calendar.DAY_OF_MONTH);
+            } else {
+                cal.setTime(new Date(now));
+                cal.set(Calendar.DAY_OF_MONTH, 1);
+                cal.add(Calendar.MONTH, 1);
+                cal.add(Calendar.DAY_OF_YEAR, -1);
+                dim = cal.get(Calendar.DAY_OF_MONTH);
+            }
+            per[i] = 1f / dim;   // 月日均（当前月按已过天数）
+            sumDaily += br[i] * per[i];
         }
-        chart.setData(labels, al, br);
+        chart.setData(labels, al, br, per, sumDaily / Math.max(1, n));
         fillRows(labels, al, br, n);
     }
 
@@ -211,11 +262,15 @@ public class StatsActivity extends Activity {
         trend.setData(labels, targets, scores);
     }
 
-    private void shareReport(int wb, int wa, int sitMin, int avg, int streak) {
+    private void shareReport() {
         long now = System.currentTimeMillis();
-        StringBuilder sb = new StringBuilder("久坐提醒 · 本周报告\n");
-        sb.append("有效活动 ").append(wb).append(" 次，提醒 ").append(wa)
-          .append(" 次，连续达标 ").append(streak).append(" 天\n");
+        StringBuilder sb = new StringBuilder("久坐提醒 · 数据报告\n");
+        int wb = p.sumLast("breaks", 7);
+        int wa = p.sumLast("alerts", 7);
+        int sitMin = p.sumLast("sitSumSec", 7) / 60;
+        int avg = avgFor(7);
+        sb.append("近 7 天：有效活动 ").append(wb).append(" 次，提醒 ").append(wa)
+          .append(" 次，连续达标 ").append(p.streakDays()).append(" 天\n");
         sb.append("累计久坐 ").append(sitMin).append(" 分钟");
         if (avg > 0) sb.append("，平均每次 ").append(avg).append(" 分钟");
         sb.append("\n");
@@ -228,6 +283,6 @@ public class StatsActivity extends Activity {
         Intent send = new Intent(Intent.ACTION_SEND);
         send.setType("text/plain");
         send.putExtra(Intent.EXTRA_TEXT, sb.toString());
-        startActivity(Intent.createChooser(send, "分享本周报告"));
+        startActivity(Intent.createChooser(send, "分享报告"));
     }
 }
