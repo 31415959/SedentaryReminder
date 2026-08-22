@@ -19,7 +19,7 @@ public class StatsChartView extends View {
     public StatsChartView(Context c, AttributeSet a) {
         super(c, a);
         dp = c.getResources().getDisplayMetrics().density;
-        barP.setColor(0xFF8A7F73);
+        barP.setColor(0xFF3F362E);
         barG.setColor(0xFF8B6F5B);
         txtP.setColor(0xFF8A7F73);
         txtP.setTextSize(11 * dp);

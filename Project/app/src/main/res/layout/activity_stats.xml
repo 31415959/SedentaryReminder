@@ -228,7 +228,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
-                        android:text="深色 = 提醒 · 棕色 = 有效活动"
+                        android:text="深灰 = 提醒 · 摩卡 = 有效活动"
                         android:textColor="#A0968A"
                         android:textSize="11sp" />
 
