@@ -15,6 +15,15 @@ import android.media.AudioAttributes;
 import android.media.RingtoneManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.graphics.Typeface;
+import android.graphics.drawable.ClipDrawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.LayerDrawable;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.StyleSpan;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,6 +34,7 @@ import java.util.List;
 public class MainActivity extends Activity {
     private Prefs p;
     private TextView tvStatus, tvDetail, tvHomeBreaks, tvHomeAlerts, tvHomeHint;
+    private Button btnStart;
     private ProgressBar progress;
     private BroadcastReceiver r;
     private boolean pendingStart;
@@ -41,10 +51,13 @@ public class MainActivity extends Activity {
         tvHomeAlerts = findViewById(R.id.tvHomeAlerts);
         tvHomeHint = findViewById(R.id.tvHomeHint);
         progress = findViewById(R.id.progress);
+        btnStart = findViewById(R.id.btnStart);
         new SideNav(this);
 
-        findViewById(R.id.btnStart).setOnClickListener(v -> startMonitoring());
-        findViewById(R.id.btnStop).setOnClickListener(v -> stopMonitoring());
+        btnStart.setOnClickListener(v -> {
+            if (MonitorService.running) stopMonitoring();
+            else startMonitoring();
+        });
         findViewById(R.id.btnTest).setOnClickListener(v -> testAlert());
 
         r = new BroadcastReceiver() {
@@ -197,36 +210,77 @@ public class MainActivity extends Activity {
         int mm = (int) (el / 60000L);
         int ss = (int) ((el / 1000L) % 60L);
 
+        int brown = getColor(R.color.accent_brown);
+        int orange = getColor(R.color.accent_orange);
+        int orangeDeep = getColor(R.color.accent_orange_deep);
+        int dark = getColor(R.color.text_title);
+        int progressColor = brown;
+        int statColor = dark;
+
         String detail;
         int prog;
+        btnStart.setText(running ? "停止监测" : "开始监测");
         if (!running) {
             tvStatus.setText("未开始");
+            tvStatus.setTextColor(dark);
             detail = "开启后开始累计久坐时间";
+            tvDetail.setTextColor(dark);
+            tvDetail.setText(detail);
             prog = 0;
         } else if (moving) {
             tvStatus.setText("正在活动");
+            tvStatus.setTextColor(getColor(R.color.accent_soft_green));
             detail = "检测到你在走动，久坐计时顺延中";
+            tvDetail.setTextColor(dark);
+            tvDetail.setText(detail);
             prog = 0;
-        } else if (p.lastAlert() > 0) {
-            long sinceAlert = Math.max(0, System.currentTimeMillis() - p.lastAlert());
-            tvStatus.setText("提醒已发出");
-            detail = "等待起身 " + (int) (sinceAlert / 60000L) + " 分 "
-                    + (int) ((sinceAlert / 1000L) % 60L) + " 秒";
-            prog = 1000;
-        } else if (el >= sitMs) {
-            tvStatus.setText("已超时");
-            detail = "已超时 " + mm + " 分钟，起来活动一下";
-            prog = 1000;
+            statColor = brown;
         } else {
-            tvStatus.setText("正在监测");
-            detail = "已静坐 " + mm + " 分 " + ss + " 秒，目标 " + p.effectiveSitMinutes() + " 分钟";
-            prog = (int) Math.min(1000, el * 1000 / Math.max(1, sitMs));
+            float ratio = sitMs > 0 ? (float) el / (float) sitMs : 0f;
+            boolean near = ratio >= 0.8f;
+            int keyColor = near ? orange : brown;
+            statColor = keyColor;
+            progressColor = keyColor;
+
+            if (p.lastAlert() > 0) {
+                long sinceAlert = Math.max(0, System.currentTimeMillis() - p.lastAlert());
+                String wait = (int) (sinceAlert / 60000L) + " 分 "
+                        + (int) ((sinceAlert / 1000L) % 60L) + " 秒";
+                tvStatus.setText("提醒已发出");
+                tvStatus.setTextColor(orangeDeep);
+                tvDetail.setTextColor(orangeDeep);
+                detail = "等待起身 " + wait;
+                renderDetail(detail, wait, orangeDeep);
+                prog = 1000;
+                progressColor = orangeDeep;
+                statColor = orange;
+            } else if (el >= sitMs) {
+                String over = mm + " 分钟";
+                tvStatus.setText("已超时");
+                tvStatus.setTextColor(orangeDeep);
+                tvDetail.setTextColor(orangeDeep);
+                detail = "已超时 " + over + "，起来活动一下";
+                renderDetail(detail, over, orangeDeep);
+                prog = 1000;
+                progressColor = orangeDeep;
+                statColor = orange;
+            } else {
+                String elapsed = mm + " 分 " + ss + " 秒";
+                tvStatus.setText("正在监测");
+                tvStatus.setTextColor(near ? orange : dark);
+                tvDetail.setTextColor(dark);
+                detail = "已静坐 " + elapsed + "，目标 " + p.effectiveSitMinutes() + " 分钟";
+                renderDetail(detail, elapsed, keyColor);
+                prog = (int) Math.min(1000, el * 1000 / Math.max(1, sitMs));
+            }
         }
-        tvDetail.setText(detail);
         progress.setMax(1000);
+        setProgressColor(progressColor);
         progress.setProgress(prog);
         tvHomeBreaks.setText(running ? String.valueOf(p.today("breaks")) : "—");
         tvHomeAlerts.setText(running ? String.valueOf(p.today("alerts")) : "—");
+        tvHomeBreaks.setTextColor(statColor);
+        tvHomeAlerts.setTextColor(statColor);
         boolean changed = p.autoAdaptive()
                 && (p.effectiveSitMinutes() != p.sitMinutes()
                 || p.effectiveWinSteps() != p.winSteps()
@@ -234,6 +288,32 @@ public class MainActivity extends Activity {
         String adaptive = changed ? "（当前标准已自动调整）" : "";
         tvHomeHint.setText("有效活动：" + p.effectiveWinMinutes() + " 分钟内累计 "
                 + p.effectiveWinSteps() + " 步" + adaptive + "。拿手机、短距离走动不计入。");
+    }
+
+    private void setProgressColor(int color) {
+        if (!(progress.getProgressDrawable() instanceof LayerDrawable)) return;
+        LayerDrawable layers = (LayerDrawable) progress.getProgressDrawable();
+        ClipDrawable clip = (ClipDrawable) layers.findDrawableByLayerId(android.R.id.progress);
+        if (clip != null && clip.getDrawable() instanceof GradientDrawable) {
+            ((GradientDrawable) clip.getDrawable()).setColor(color);
+        }
+        GradientDrawable track =
+                (GradientDrawable) layers.findDrawableByLayerId(android.R.id.background);
+        if (track != null) {
+            track.setColor(getColor(R.color.progress_track));
+        }
+    }
+
+    private void renderDetail(String text, String hot, int color) {
+        SpannableString s = new SpannableString(text);
+        int start = text.indexOf(hot);
+        if (start >= 0) {
+            s.setSpan(new ForegroundColorSpan(color), start, start + hot.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            s.setSpan(new StyleSpan(Typeface.BOLD), start, start + hot.length(),
+                    Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        tvDetail.setText(s);
     }
 
     private void toast(String msg) {

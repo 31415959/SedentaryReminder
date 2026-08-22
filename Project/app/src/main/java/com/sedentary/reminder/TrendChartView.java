@@ -48,16 +48,20 @@ public class TrendChartView extends View {
         if (labels.length == 0) return;
         float w = getWidth();
         float h = getHeight();
-        float top = 16 * dp;
-        float bottom = h - 28 * dp;
+        float top = 8 * dp;
+        float bottom = h - 24 * dp;
         float slot = w / labels.length;
-        int max = 90;
+        int maxTarget = 60;
+        for (int t : targets) {
+            if (t > maxTarget) maxTarget = t;
+        }
+        maxTarget = Math.max(60, ((maxTarget + 9) / 10) * 10);
         float usable = bottom - top;
         float prevX = -1, prevY = -1, prevSX = -1, prevSY = -1;
         for (int i = 0; i < labels.length; i++) {
             float cx = slot * i + slot / 2f;
             if (targets[i] > 0) {
-                float y = bottom - targets[i] * usable / max;
+                float y = bottom - targets[i] * usable / maxTarget;
                 canvas.drawCircle(cx, y, 3 * dp, lineT);
                 val.setColor(0xFF8B6F5B);
                 canvas.drawText(String.valueOf(targets[i]), cx, y - 6 * dp, val);

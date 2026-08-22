@@ -2,20 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="56dp"
-    android:background="#F5F6F4"
+    android:background="@color/bg_main"
     android:gravity="center_vertical"
     android:orientation="horizontal"
     android:paddingStart="4dp"
     android:paddingEnd="16dp">
 
-    <Button
+    <ImageView
         android:id="@+id/btnMenu"
         android:layout_width="48dp"
         android:layout_height="48dp"
-        android:background="@android:color/transparent"
-        android:text="☰"
-        android:textColor="#3F362E"
-        android:textSize="20sp" />
+        android:padding="12dp"
+        android:src="@drawable/ic_menu"
+        android:contentDescription="菜单" />
 
     <TextView
         android:id="@+id/tvTitle"

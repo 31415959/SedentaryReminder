@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="StatusCard">
+        <item name="android:background">@drawable/panel_tint</item>
+        <item name="android:elevation">10dp</item>
+        <item name="android:outlineAmbientShadowColor">#2E6B4D33</item>
+        <item name="android:outlineSpotShadowColor">#3D6B4D33</item>
+    </style>
+
+    <style name="HomeCard">
+        <item name="android:background">@drawable/card_white</item>
+        <item name="android:elevation">12dp</item>
+        <item name="android:outlineAmbientShadowColor">#306B4D33</item>
+        <item name="android:outlineSpotShadowColor">#4D6B4D33</item>
+    </style>
+</resources>

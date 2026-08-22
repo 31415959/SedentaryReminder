@@ -80,6 +80,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:text="自动调整提醒时间与活动标准（推荐）"
+                        android:buttonTint="@color/accent_brown"
                         android:textColor="#3F362E"
                         android:textSize="14sp" />
 
@@ -105,8 +106,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:max="225"
-                        android:progressTint="#1E6B52"
-                        android:thumbTint="#1E6B52" />
+                        android:progressTint="@color/accent_brown"
+                        android:thumbTint="@color/accent_brown" />
 
                     <TextView
                         android:id="@+id/tvSitL"
@@ -141,8 +142,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:max="14"
-                        android:progressTint="#1E6B52"
-                        android:thumbTint="#1E6B52" />
+                        android:progressTint="@color/accent_brown"
+                        android:thumbTint="@color/accent_brown" />
 
                     <TextView
                         android:id="@+id/tvWinL"
@@ -177,8 +178,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:max="980"
-                        android:progressTint="#1E6B52"
-                        android:thumbTint="#1E6B52" />
+                        android:progressTint="@color/accent_brown"
+                        android:thumbTint="@color/accent_brown" />
 
                     <TextView
                         android:id="@+id/tvStepsL"
@@ -234,6 +235,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
                         android:text="开启后，该时段内不提醒，结束后补提醒"
+                        android:buttonTint="@color/accent_brown"
                         android:textColor="#3F4944"
                         android:textSize="14sp" />
 

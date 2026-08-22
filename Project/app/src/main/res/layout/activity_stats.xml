@@ -38,13 +38,21 @@
                         android:textSize="13sp" />
 
                     <TextView
-                        android:id="@+id/tvWeekSummary"
+                        android:id="@+id/tvWeekSummary1"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:textColor="#3F362E"
-                        android:textSize="18sp"
+                        android:textColor="@color/text_title"
+                        android:textSize="16sp"
                         android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/tvWeekSummary2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="4dp"
+                        android:textColor="@color/text_hint_dark"
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -67,7 +75,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textColor="#1E6B52"
+                            android:textColor="@color/text_title"
                             android:textSize="24sp"
                             android:textStyle="bold" />
 
@@ -125,18 +133,19 @@
                         android:textStyle="bold" />
 
                     <TextView
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="2dp"
+                        android:gravity="center"
                         android:text="棕色 = 每天实际提醒目标（分钟） · 灰色 = 总体响应水平（0-10）"
-                        android:textColor="#A0968A"
+                        android:textColor="@color/text_hint_dark"
                         android:textSize="11sp" />
 
                     <com.sedentary.reminder.TrendChartView
                         android:id="@+id/trendChart"
                         android:layout_width="match_parent"
-                        android:layout_height="170dp"
-                        android:layout_marginTop="8dp" />
+                        android:layout_height="190dp"
+                        android:layout_marginTop="10dp" />
                 </LinearLayout>
 
                 <LinearLayout

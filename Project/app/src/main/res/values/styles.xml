@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="StatusCard">
+        <item name="android:background">@drawable/panel_tint</item>
+        <item name="android:elevation">10dp</item>
+    </style>
+
+    <style name="HomeCard">
+        <item name="android:background">@drawable/card_white</item>
+        <item name="android:elevation">12dp</item>
+    </style>
+
+    <style name="AppTheme" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/bg_main</item>
+        <item name="android:navigationBarColor">@color/bg_main</item>
+    </style>
+
+    <style name="AppTheme.Fullscreen" parent="@android:style/Theme.Material.Light.NoActionBar.Fullscreen">
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor">@color/bg_main</item>
+        <item name="android:navigationBarColor">@color/bg_main</item>
+    </style>
+</resources>
