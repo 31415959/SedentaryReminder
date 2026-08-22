@@ -33,6 +33,7 @@ public class MonitorService extends Service implements SensorEventListener {
     public static final String ACTION_START = "com.sedentary.reminder.START_SVC";
     public static final String ACTION_STOP = "com.sedentary.reminder.STOP_SVC";
     public static final String ACTION_TEST_ALERT = "com.sedentary.reminder.TEST_ALERT";
+    public static final String ACTION_TEST_SHAKE_BATCH = "com.sedentary.reminder.TEST_SHAKE_BATCH";
     public static final String CH_STATUS = "status";
     public static final String CH_ALERT = "alert_v2";
     public static final String CH_PRE = "pre";
@@ -140,6 +141,16 @@ public class MonitorService extends Service implements SensorEventListener {
         }
         if (intent != null && ACTION_TEST_ALERT.equals(intent.getAction())) {
             showOverlay("测试悬浮提醒", "如果你能在其他应用上方看到这一页，说明悬浮提醒已生效。");
+            return START_STICKY;
+        }
+        if (intent != null && ACTION_TEST_SHAKE_BATCH.equals(intent.getAction())) {
+            // 仅 adb/root 测试入口：批量注入低强度晃动事件，验证低强度活动累计。
+            if (running) {
+                int count = Math.max(1, Math.min(600, intent.getIntExtra("count", 60)));
+                long t = System.currentTimeMillis();
+                for (int i = 0; i < count; i++) accumulateLightActivity(t);
+                sendStateBroadcast();
+            }
             return START_STICKY;
         }
         if (!p.enabled()) {
