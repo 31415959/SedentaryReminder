@@ -1,7 +1,7 @@
 久坐提醒 APK 项目
 ================
-最新安装包：H:\SedentaryReminder\APK\SedentaryReminder-v1.3 (versionCode 4).apk
-  - 包名 com.sedentary.reminder，版本 v1.3 (versionCode 4)
+最新安装包：H:\SedentaryReminder\APK\SedentaryReminder-v2.3.1-ui3.apk
+  - 包名 com.sedentary.reminder，版本 v2.3.1 (versionCode 21)
   - minSdk 26 / targetSdk 36（适配 Android 16 / MagicOS 10）
   - 同签名，可直接覆盖旧版安装
 
